@@ -13,6 +13,14 @@ class Node(object):
         self.nodes = nodes
         self.value = value
 
+    def __getstate__(self):
+        return (self.parent, self.key, self.nodes, self.value)
+
+    def __setstate__(self, state):
+        (self.parent, self.key, self.nodes, self.value) = state
+        if type(self.value) == object:
+            self.value = Node.no_value
+
     @property
     def keypath(self):
         n = self
