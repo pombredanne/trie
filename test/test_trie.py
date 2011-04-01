@@ -96,3 +96,8 @@ def test_serialise():
     t2 = pickle.loads(pickle.dumps(t))
     itered = list(t2.itervalues())
     assert itered == 'barval bazval fval fooval'.split(), itered
+
+    t = trie.Trie()
+    t['obj'] = object()
+    t2 = pickle.loads(pickle.dumps(t))
+    assert type(t2['obj']) == object, t2['obj']
