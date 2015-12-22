@@ -89,3 +89,23 @@ def test_itervalues():
     t['baz'] = 'bazval'
     itered = list(t.itervalues())
     assert itered == 'barval bazval fval fooval'.split(), itered
+
+
+def test_serialise():
+    try:
+        import cPickle as pickle
+    except ImportError:
+        import pickle
+    t = trie.Trie()
+    t['f'] = 'fval'
+    t['foo'] = 'fooval'
+    t['bar'] = 'barval'
+    t['baz'] = 'bazval'
+    t2 = pickle.loads(pickle.dumps(t))
+    itered = list(t2.itervalues())
+    assert itered == 'barval bazval fval fooval'.split(), itered
+
+    t = trie.Trie()
+    t['obj'] = object()
+    t2 = pickle.loads(pickle.dumps(t))
+    assert type(t2['obj']) == object, t2['obj']
